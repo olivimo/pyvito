@@ -51,7 +51,7 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgNumeric(0x2308, '0x2308'),
         MsgNumeric(0x0847, '0x0847 faute collective'),
         MsgNumeric(0x7500, '0x7500 défaut?'),
-        MsgNumeric(0xa38f, '0xa38f équipement de performance réelle'),
+        MsgNumeric(0xa38f, '0xa38f Performance actuelle', UBYTE, unit='%'),
        ]
 
 
@@ -87,54 +87,55 @@ DEFAULTS = {0x0F:('Marche régulée',
 
 # %% Codage 2 -- circulation chauffage
 # --- codages  "A0" à "FB"
-CODAGE2_CC = [Codage(0x27a0, 0, (0, 2)),
-              Codage(0x27a2, 2, (0, 15)),
-              Codage(0x27a3, 2, (-9, 15)),
-              Codage(0x27a4, 0, (0, 1)),
-              Codage(0x27a5, 5, (0, 15)),
-              Codage(0x27a6, 36, (5, 36)),
-              Codage(0x27a7, 0, (0, 1)),
-              Codage(0x27a9, 7, (0, 15)),
-              Codage(0x27aa, 2, (0, 2)),
-              Codage(0x27ab, 20, (0, 200)),
-              Codage(0x27b0, 0, (0, 3)),
-              Codage(0x27b2, 8, (0, 31)),
-              Codage(0x27b5, 5, (0, 8)),
-              Codage(0x27bb, 1, (0, 1)),
-              Codage(0x27bc, 1, (0, 1)),
-              Codage(0x27c3, 125, (10, 255)),
-              Codage(0x27c4, 1, (0, 3)),
-              Codage(0x27c5, 20, (1, 127)),
-              Codage(0x27c6, 75, (10, 127)),
+CODAGE2_CC = [Codage(0x27a0, 0, (0, 2)),  # avec vitotrol 300A ; reconnaissance automatique
+              Codage(0x27a2, 2, (0, 15)),  # avec priorité à la production d'eau chaude sanitaire
+              Codage(0x27a3, 2, (-9, 15)),  # si T ext < 1°C pompe de circuit de chauffage "Marche"
+              Codage(0x27a4, 0, (0, 1)),  # avec protection contre le gel
+              Codage(0x27a5, 5, (0, 15)),  # avec fonction logique de pompe
+              Codage(0x27a6, 36, (5, 36)),  # régime économique étendu actif
+              Codage(0x27a7, 0, (0, 1)),  # sans fonction économique de la vanne mélangeuse
+              Codage(0x27a9, 7, (0, 15)),  # avec temps d'arrêt de la pompe
+              Codage(0x27aa, 2, (0, 2)),  # avec réduction de la puissance
+              Codage(0x27ab, 20, (0, 200)),  # position minimale de l avanne mélangeuse avec réduction de la puissance de 10%
+              Codage(0x27b0, 0, (0, 3)),  # 0 avec commande à distance - 1 marche normale en fonction de la t° extérieure marche réduite avec compensation par la sonde de TA etc..
+              Codage(0x27b2, 8, (0, 31)),  # coefficient d'influence de la température ambiante
+              Codage(0x27b5, 5, (0, 8)),  # avec commande à distance : avec fonction de logique de pompe en fcn de la température ambiante
+              Codage(0x27bb, 1, (0, 1)),  # priorité à la charge réservoir tampon
+              Codage(0x27bc, 1, (0, 1)),  # absorption de chaleur forcée en cas de dépassement
+              Codage(0x27c3, 125, (10, 255)),  # durée de fonctionnement de la vanne mélangeuse
+              Codage(0x27c4, 1, (0, 3)),  # souplesse de l'installation
+              Codage(0x27c5, 20, (1, 127)),  # limitation électronique de la température minimale de départ
+              Codage(0x27c6, 75, (10, 127)),  # limitation éléctronique de la température maximale
               Codage(0x27c8, 31, (1, 31)),
               Codage(0x27d5, 0, (0, 1)),
-              Codage(0x27e1, 1, (0, 2)),
-              Codage(0x27e2, 50, (0, 99)),
-              Codage(0x27f1, 0, (0, 6)),
-              Codage(0x27f2, 8, (0, 12)),
-              Codage(0x27f8, -5, (-61, 10)),
-              Codage(0x27f9, -14, (-60, 10)),
-              Codage(0x27fa, 20, (0, 50)),
-              Codage(0x27fb, 30, (0, 150)),
+              Codage(0x27e1, 1, (0, 2)),  # plage de température pour la consigne de jour de la commande à distance
+              Codage(0x27e2, 50, (0, 99)),  # correction de l'affichage de la valeur effective de température ambiante sur la commande à distance
+              Codage(0x27f1, 0, (0, 6)),  # fonction séchage de chappe
+              Codage(0x27f2, 8, (0, 12)),  # durée limite du mode réception
+              Codage(0x27f8, -5, (-61, 10)),  # valeur limite pour le début de l'augmentation de T° de réduit à normale
+              Codage(0x27f9, -14, (-60, 10)),  # valeur limite pour la fin de l'augmentation de T° de réduit à normale
+              Codage(0x27fa, 20, (0, 50)),  # % pour augmentation de consigne de température lors du passage de T° réduite à T° normale
+              Codage(0x27fb, 30, (0, 150)),  # durée du fonctionnement à la T° élevée lors du passage de T° réduite à T° normale (1 pas de réglage = 2mn)
              ]
 
 
 # %% Codage 2 -- généralités
 # --- codages "02" à "05", "08", "8A" à "9F"
 CODAGE2_GEN = [Codage(0x778a, 175, (175, 175)),  # ne pas modifier !
-               Codage(0x7790, 128, (1, 199)),
-               Codage(0x7791, 0, (0, 3)),
+               Codage(0x7790, 128, (1, 199)),  # Constante de temps pour le calcul de la modification de la température extérieure 21,3h (1 pas = 10 mn)
+               Codage(0x7791, 0, (0, 3)),  # Raccordement aux bornes 1 et 2 de la fiche 143 inactif
                Codage(0x7794, 0, (0, 0)),  # ne pas modifier !
-               Codage(0x7795, 0, (0, 1)),
+               Codage(0x7795, 0, (0, 1)),  # Sans Vitocom 100
                Codage(0x7796, 0, (0, 0)),  # ne pas modifier !
-               Codage(0x7797, 0, (0, 2)),
-               Codage(0x7799, 0, (0, 7)),
-               Codage(0x779a, 0, (0, 3)),
-               Codage(0x779b, 0, (0, 127)),
-               Codage(0x779c, 20, (0, 60)),
-               Codage(0x779d, 0, (0, 1)),
-               Codage(0x779e, 0, (0, 1)),
-               Codage(0x779f, 8, (0, 40)),
+               Codage(0x7797, 0, (0, 2)),  # avec module de communication LON
+			   Codage(0x7798, 1, (1, 5)),  # Numéro d'installation Viessmann
+               Codage(0x7799, 0, (0, 7)),  # Raccordement aux bornes 2 et 3 de la fiche 143 inactif
+               Codage(0x779a, 0, (0, 3)),  # Raccordement aux bornes 1 et 2 de la fiche 143 inactif
+               Codage(0x779b, 0, (0, 127)),  # Consigne de température minimale de départ
+               Codage(0x779c, 20, (0, 60)),  # Surveillance de l'appareil raccordé au bus LON (min)
+               Codage(0x779d, 0, (0, 1)),  # sans extension de fonction 0 à 10V
+               Codage(0x779e, 0, (0, 1)),  # 0: sans, 1: avec sonde de température extérieure (reconnaissance automatique)
+               Codage(0x779f, 8, (0, 40)),  # différence entre consigne de température de départ et eau de chaudière (K)
               ]
 
 
@@ -143,11 +144,11 @@ CODAGE2_GEN = [Codage(0x778a, 175, (175, 175)),  # ne pas modifier !
 CODAGE2_CHAUD = [Codage(0x5721, 0, (0, 100)),  # fréquence entretien
                  Codage(0x5722, 0, (0, 255)),  # combustible entretien
                  Codage(0x5723, 0, (0, 24)),  # brûleur entretien
-                 Codage(0x5724, 0, (0, 1)),  #mise à 0 du message d'entretiens
-                 Codage(0x572f, 100, (70, 130)),  # coefficient correction consommation
-                 Codage(0x5730, 10, (5, 30)),
-                 Codage(0x5731, 5, (0, 20)),
-                 Codage(0x5732, 0, (10, 100))]
+                 Codage(0x5724, 0, (0, 1)),  # mise à 0 du message d'entretiens
+                 Codage(0x572f, 100, (70, 130)),  # coefficient correction consommation granulés
+                 Codage(0x5730, 10, (5, 30)),  # consigne 30 d'enclenchement pour la réduction de puissance (K)
+                 Codage(0x5731, 5, (0, 20)),  # consigne 31 d'enclenchement pour la réduction de puissance (K)
+                 Codage(0x5732, 0, (10, 100))]  # amplification de la réduction de puissance
 
 
 # convert the list into a dictionary
