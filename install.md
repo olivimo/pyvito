@@ -66,7 +66,7 @@ NB: the dot at the end of the command means copy file to the current folder.
 use the option "-r" to recursively copy entire directories instead of a simple file.
 
 ## usefull links 
+[http://openv.wikispaces.com/]
+[https://github.com/steand/optolink]
 [https://gist.github.com/mqu/9519e39ccc474f111ffb]
-
-
 
