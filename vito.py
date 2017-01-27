@@ -202,8 +202,11 @@ if __name__ == "__main__":
             # Error
             domoticz(17, nvalue=4, svalue="Erreur {:02X} (dernière = {:02X} {})".format(err1_id, err2_id, err2_date))
             domoticz(18, svalue='{:02X} - {}<br>{}<br>{}'.format(err1_id, *se.DEFAULTS.get(err1_id, ('', '', ''))))
-    new = se.MsgNumeric(0x27e2, 'correction affichage')
 
+    mod = se.MsgNumeric(0x0b11, 'Mode de fonctionnement')
+    if opto.read(mod):
+        print mod.value 
+#    new = se.MsgNumeric(0x27e2, 'correction affichage')
 #    opto.write(0x27e2, 50)
 #    opto.read(new)
 #    print new

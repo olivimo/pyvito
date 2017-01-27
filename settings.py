@@ -41,22 +41,28 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgBoolean(0x2303, 'Régime réception ?'),
         MsgNumeric(0x2304, 'Courbe de chauffe : parallèle [-13, 40]', BYTE),
         MsgNumeric(0x2305, 'Courbe de chauffe :pente [0.2, 3.4]', BYTE, divider=10.),
+        MsgNumeric(0x0B16, "Température d'insertion", SHORT, unit='°C', divider=10.),
         MsgNumeric(0x0B1A, 'Primary air shutter', UBYTE, unit='%'),
         MsgNumeric(0x0B1B, 'Secondary air shutter', UBYTE, unit='%'),
         MsgBoolean(0x0843, '0843 Multifunktionsausgang HKP M1'),
         MsgNumeric(0x2323, 'Operation mode (0,1,2,4)', UBYTE),
-        MsgNumeric(0x2500, 'Mode actuel[0:veille, 1:marche reduite, 2:marche normale(programmée), 3:marche normale(constante)]', BYTE),
-        MsgNumeric(0x2300, '0x2300'),
-        MsgNumeric(0x2301, '0x2301 mode de fonctionnement ?'),
-        MsgNumeric(0x2308, '0x2308'),
-        MsgNumeric(0x0847, '0x0847 faute collective'),
-        MsgNumeric(0x7500, '0x7500 défaut?'),
-        MsgNumeric(0xa38f, '0xa38f Performance actuelle', UBYTE, unit='%'),
+        MsgNumeric(0x2500, 'Mode actuel [0:veille, 1:marche reduite, 2:marche normale(programmée), 3:marche normale(constante)]', BYTE),
+        MsgNumeric(0x254C, 'Ouverture de la vanne mélangeuse', BYTE, unit='%'),
+        MsgNumeric(0x2308, 'Consigne de température régime réception', UBYTE, unit='°C'),
+        MsgNumeric(0xa38f, 'Performance actuelle', UBYTE, unit='%', divider=2.),
+        MsgNumeric(0x2301, 'Mode de fonctionnement [0, 1, 2, 3]'),
+        MsgNumeric(0x2300, '0x2300 bof'),
+        MsgNumeric(0x0847, '0x0847 faute collective bof'),
+        MsgNumeric(0x7500, '0x7500 défaut bof ?'),
        ]
 
 
 # --- Time slots
-TISL = [MsgTimeslot(0x2000+i*8, DAYS[i]) for i in range(7)]
+ALL_TISL = [MsgTimeslot(0x1000*j+i*8, DAYS[i]) for j in range(2, 5) for i in range(7)]
+ALL_TISL += [MsgTimeslot(0x1000*j+i*8+0x80, DAYS[i]) for j in range(2, 5) for i in range(7)]
+ALL_TISL += [MsgTimeslot(0x1000*j+i*8+0x100, DAYS[i]) for j in range(2, 5) for i in range(7)]
+ALL_TISL += [MsgTimeslot(0x1000*j+i*8+0x180, DAYS[i]) for j in range(2, 5) for i in range(7)]
+TISL = ALL_TISL[:7]
 
 
 # --- Errors log
@@ -128,7 +134,7 @@ CODAGE2_GEN = [Codage(0x778a, 175, (175, 175)),  # ne pas modifier !
                Codage(0x7795, 0, (0, 1)),  # Sans Vitocom 100
                Codage(0x7796, 0, (0, 0)),  # ne pas modifier !
                Codage(0x7797, 0, (0, 2)),  # avec module de communication LON
-			   Codage(0x7798, 1, (1, 5)),  # Numéro d'installation Viessmann
+               Codage(0x7798, 1, (1, 5)),  # Numéro d'installation Viessmann
                Codage(0x7799, 0, (0, 7)),  # Raccordement aux bornes 2 et 3 de la fiche 143 inactif
                Codage(0x779a, 0, (0, 3)),  # Raccordement aux bornes 1 et 2 de la fiche 143 inactif
                Codage(0x779b, 0, (0, 127)),  # Consigne de température minimale de départ
@@ -153,3 +159,15 @@ CODAGE2_CHAUD = [Codage(0x5721, 0, (0, 100)),  # fréquence entretien
 
 # convert the list into a dictionary
 #cCODAGE2_CC = {u.address%256:u for u in CODAGE2_CC}
+
+
+# %% Main
+
+if __name__ == "__main__":
+
+    # --- Create a list that contains all messages and group by address
+    ALL_MESSAGES = MSGS + ALL_TISL + ERRL + CODAGE2_CC + CODAGE2_CHAUD + CODAGE2_GEN
+    ALL_MESSAGES.sort(key=lambda x: x.address)
+    TAB = ['{:04X} | {} | {}'.format(elt.address, elt.size, elt.description) for elt in ALL_MESSAGES]
+    TAB_ADD = [elt.address for elt in ALL_MESSAGES]
+    print '\n'.join(TAB)

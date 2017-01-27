@@ -35,6 +35,8 @@ UINT = ('I', 4)
 
 DAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
+MODES = {0:'Arrêt', 1:'Montée température', 2:'Action régulation', 4:"Phase d'extinction"}
+
 # %% Classes
 class Msg(object):
     """ Class that manages messages to be read """
