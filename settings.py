@@ -20,7 +20,7 @@ URL = 'http://192.168.1.23:8080'  # Domoticz Server
 MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgDate(0x088E, 'Date et heure'),
         MsgNumeric(0x5525, 'Température extérieure amortie', SHORT, unit='°C', divider=10.),
-        MsgNumeric(0x0800, 'Température extérieure effective', SHORT, divider=10., unit='°C', idx=1),
+        MsgNumeric(0x0800, 'Température extérieure effective', SHORT, divider=10., unit='°C', idx=22),
         MsgNumeric(0x0B00, 'Température chaudière consigne', USHORT, unit='°C', divider=10.),
         MsgNumeric(0x0B12, 'Température chaudière effective', USHORT, divider=10., unit='°C', idx=8),
         MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=4),
