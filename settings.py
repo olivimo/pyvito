@@ -51,9 +51,10 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgNumeric(0x2308, 'Consigne de température régime réception', UBYTE, unit='°C'),
         MsgNumeric(0xa38f, 'Performance actuelle', UBYTE, unit='%', divider=2.),
         MsgNumeric(0x2301, 'Mode de fonctionnement [0, 1, 2, 3]'),
-        MsgNumeric(0x2300, '0x2300 bof'),
-        MsgNumeric(0x0847, '0x0847 faute collective bof'),
-        MsgNumeric(0x7500, '0x7500 défaut bof ?'),
+        MsgNumeric(0x084B, 'Défaut ?'),
+        MsgNumeric(0x0b11, 'Mode de fonctionnement'),
+        MsgNumeric(0x0B21, 'Défaut actuel'),  # Idem as 7561 and 756B
+        MsgNumeric(0x0B23, 'Entrées numériques 1'),
        ]
 
 

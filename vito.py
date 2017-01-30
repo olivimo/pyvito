@@ -8,6 +8,7 @@ Created on Mon Dec 26 11:07:17 2016
 
 from time import sleep
 import urllib
+import json
 import logging
 import serial
 import settings as se
@@ -30,6 +31,18 @@ def domoticz(idx, nvalue='0', svalue=''):
     return httpresponse
 
 
+def geterrlog():
+    url = se.URL
+    httpresponse = urllib.urlopen(url + "/json.htm?type=command&param=getuservariable&idx=1")
+    data = json.load(httpresponse)
+    return data['result'][0]['Value']
+
+
+def seterrlog(val):
+    url = se.URL
+    urllib.urlopen(url + "/json.htm?type=command&param=updateuservariable&vname=lasterror&vtype=2&vvalue={}".format(val))
+
+    
 # %% Optolink Class
 class Optolink(object):
     """ Class for communication with optolink """
@@ -191,21 +204,30 @@ if __name__ == "__main__":
         if opto.read(el):
             print el
     # Print and update Errorlog to be improved
-    err = se.MsgNumeric(0x7500, 'Etat chaudière') # to be checked
+    err = se.MsgBoolean(0x084B, 'Défaut ?')
+    err0_id, err0_date = se.ERRL[0].value
     if opto.read(err):
-        err1_id, err1_date = se.ERRL[0].value
-        err2_id, err2_date = se.ERRL[1].value
-        if err.value == 0:
-            # No new error
-            domoticz(17, nvalue=1, svalue="OK (dernière = {:02X} {})".format(err1_id, err1_date))
-        else:
+        if not err.value:
             # Error
-            domoticz(17, nvalue=4, svalue="Erreur {:02X} (dernière = {:02X} {})".format(err1_id, err2_id, err2_date))
-            domoticz(18, svalue='{:02X} - {}<br>{}<br>{}'.format(err1_id, *se.DEFAULTS.get(err1_id, ('', '', ''))))
-
-    mod = se.MsgNumeric(0x0b11, 'Mode de fonctionnement')
-    if opto.read(mod):
-        print mod.value 
+            if geterrlog() != err0_date:
+                # --- new error
+                seterrlog(err0_date)  # update the errlog variable
+                domoticz(18, svalue='{:02X} - {}<br>{}<br>{}'.format(err0_id, *se.DEFAULTS.get(err0_id, ('', '', ''))))
+            else:
+                # --- no new error
+                domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
+        else:
+            # No Error
+            mod = se.MsgNumeric(0x0b11, 'Mode de fonctionnement')                
+            if opto.read(mod):
+                dico_mod = {0:(0, 'Arrêt'),
+                            1:(2, 'Montée température'),
+                            2:(1, 'Action régulation'),
+                            4:(3, "Phase d'extinction")}
+                domoticz(17, nvalue=dico_mod.get(mod.value, (2,))[0],
+                         svalue=dico_mod.get(mod.value, (2,'Mode n°{}'.format(mod.value)))[1])       
+                print dico_mod[mod.value][1]
+                
 #    new = se.MsgNumeric(0x27e2, 'correction affichage')
 #    opto.write(0x27e2, 50)
 #    opto.read(new)
