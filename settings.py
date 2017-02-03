@@ -44,16 +44,15 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgNumeric(0x0B16, "Température d'insertion", SHORT, unit='°C', divider=10.),
         MsgNumeric(0x0B1A, 'Primary air shutter', UBYTE, unit='%'),
         MsgNumeric(0x0B1B, 'Secondary air shutter', UBYTE, unit='%'),
-        MsgBoolean(0x0843, '0843 Multifunktionsausgang HKP M1'),
         MsgNumeric(0x2323, 'Operation mode (0,1,2,4)', UBYTE),
-        MsgNumeric(0x2500, 'Mode actuel [0:veille, 1:marche reduite, 2:marche normale(programmée), 3:marche normale(constante)]', BYTE),
+        MsgNumeric(0x2500, 'Mode actuel [0:veille, 1:marche reduite, 2:marche normale(programmée), 3:marche normale(permanente)]', BYTE),
         MsgNumeric(0x254C, 'Ouverture de la vanne mélangeuse', BYTE, unit='%'),
         MsgNumeric(0x2308, 'Consigne de température régime réception', UBYTE, unit='°C'),
         MsgNumeric(0xa38f, 'Performance actuelle', UBYTE, unit='%', divider=2.),
-        MsgNumeric(0x2301, 'Mode de fonctionnement [0, 1, 2, 3]'),
+        MsgNumeric(0x2323, 'Mode de fonctionnement [0: Veille, 1:Eau Chaude, 2:Chauffage et Eau Chaude, 3:Fonctionnement permanent réduit, 4: Fonctionnement permanent normal]'),
         MsgNumeric(0x084B, 'Défaut ?'),
-        MsgNumeric(0x0b11, 'Mode de fonctionnement'),
-        MsgNumeric(0x0B21, 'Défaut actuel'),  # Idem as 7561 and 756B
+        MsgNumeric(0x0b11, "Mode de fonctionnement [0:Arrêt, 1:Montée température, 2:Action régulation, 4:Phase d'extinction]", idx=23),
+        MsgNumeric(0x0B21, 'Défaut actuel', idx=24),  # Idem as 7561 and 756B
         MsgNumeric(0x0B23, 'Entrées numériques 1'),
        ]
 
@@ -70,12 +69,7 @@ TISL = ALL_TISL[:7]
 ERRL = [MsgErrlog(0x7507+i*9, 'Error {}'.format(i)) for i in range(10)]
 
 
-# %% Error log
-#err = Reading(0x7500, 'Etat chaudière', Number(UBYTE))  # ?
-#err = Reading(0x0847, 'Etat chaudière', Number(UBYTE)) # ?
-
-
-# %% Messages de défaut
+# %% Détail des messages de défaut
 
 # Structure
 #  {Adresse: ('comportement', 'cause', 'mesure')}

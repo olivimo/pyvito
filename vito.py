@@ -32,6 +32,7 @@ def domoticz(idx, nvalue='0', svalue=''):
 
 
 def geterrlog():
+    """ Function to get the value of the domoticz variable """
     url = se.URL
     httpresponse = urllib.urlopen(url + "/json.htm?type=command&param=getuservariable&idx=1")
     data = json.load(httpresponse)
@@ -39,10 +40,11 @@ def geterrlog():
 
 
 def seterrlog(val):
+    """ Function to set the value of the domoticz variable """
     url = se.URL
     urllib.urlopen(url + "/json.htm?type=command&param=updateuservariable&vname=lasterror&vtype=2&vvalue={}".format(val))
 
-    
+
 # %% Optolink Class
 class Optolink(object):
     """ Class for communication with optolink """
@@ -218,16 +220,16 @@ if __name__ == "__main__":
                 domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
         else:
             # No Error
-            mod = se.MsgNumeric(0x0b11, 'Mode de fonctionnement')                
+            mod = se.MsgNumeric(0x0b11, 'Mode de fonctionnement')
             if opto.read(mod):
                 dico_mod = {0:(0, 'Arrêt'),
                             1:(2, 'Montée température'),
                             2:(1, 'Action régulation'),
                             4:(3, "Phase d'extinction")}
                 domoticz(17, nvalue=dico_mod.get(mod.value, (2,))[0],
-                         svalue=dico_mod.get(mod.value, (2,'Mode n°{}'.format(mod.value)))[1])       
+                         svalue=dico_mod.get(mod.value, (2, 'Mode n°{}'.format(mod.value)))[1])
                 print dico_mod[mod.value][1]
-                
+
 #    new = se.MsgNumeric(0x27e2, 'correction affichage')
 #    opto.write(0x27e2, 50)
 #    opto.read(new)

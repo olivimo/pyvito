@@ -27,6 +27,7 @@ def conv_time(elt):
 
 
 # %% Types of numerics
+
 SHORT = ('h', 2)
 USHORT = ('H', 2)
 BYTE = ('b', 1)
@@ -36,6 +37,7 @@ UINT = ('I', 4)
 DAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
 MODES = {0:'Arrêt', 1:'Montée température', 2:'Action régulation', 4:"Phase d'extinction"}
+
 
 # %% Classes
 class Msg(object):
@@ -149,17 +151,18 @@ class MsgAddress(Msg):
     def update(self, str2eval):
         self.value = '0x{:02x}{:02x}'.format(ord(str2eval[0]), ord(str2eval[1]))
 
+
 class MsgTimeslot(Msg):
     """ Class that manages Timeslot messages """
     def __init__(self, address, description=''):
         super(MsgTimeslot, self).__init__(address, 8, description)
-
 
     def update(self, str2eval):
         lis = []
         for (start, stop) in zip(str2eval[::2], str2eval[1::2]):
             lis.append(conv_time(start) + ' ' + conv_time(stop))
         self.value = ' | '.join(lis)
+
 
 if __name__ == "__main__":
     UNR = MsgNumeric(0x1234, 'température ambiante', USHORT, unit='°C', divider=10.0)
