@@ -140,8 +140,10 @@ class MsgBoolean(Msg):
 
     def update(self, str2eval):
         val = unpack('B', str2eval)[0]
-        self.value = str((val%2) == 1)
+        self.value = (val%2) == 1
 
+    def __repr__(self):
+        return self.description + ' ' + str(self.value)
 
 class MsgAddress(Msg):
     """ Class that manages Address messages """

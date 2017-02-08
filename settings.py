@@ -82,7 +82,10 @@ DEFAULTS = {0x0F:('Marche régulée',
                   "Contrôler la mécanique, l'entraînement et le micro-switch. Supprimer le blocage. Le cas échéant, remplacer les pièces défectueuses."),
             0xF4:('Marche régulée',
                   'Porte de cendrier ouverte',
-                  'Fermer la porte de cendrier')
+                  'Fermer la porte de cendrier'),
+            0xFC:('Brûleur bloqué',
+                  'Manque de combustible détecté (température de flamme pas atteinte). Panne de la sonde lambda en cours de fonctionnement',
+                  "Contrôler le système d'alimentation, la sonde de température de flamme, la sonde lambda, rajouter des granulés le cas échéant"),
            }
 
 
