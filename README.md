@@ -17,3 +17,8 @@ For the moment, the reading is safe and the writting is still under development.
 VBC 550P 
 vitotronic 200 (FO1)
 vitoligno 300-P
+
+## To do
+* correspondance table between addresses and domoticz idx
+* interactive console using cmd and separate file for domoticz script
+* xml import
