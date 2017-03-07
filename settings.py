@@ -156,7 +156,7 @@ CODAGE2_CHAUD = [Codage(0x5721, 0, (0, 100)),  # fréquence entretien
 
 
 # convert the list into a dictionary
-#cCODAGE2_CC = {u.address%256:u for u in CODAGE2_CC}
+#cCODAGE2_CC = {'{:02X}'.format(u.address%256):u for u in CODAGE2_CC}
 
 
 # %% Main
