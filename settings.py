@@ -26,7 +26,7 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=4),
         MsgNumeric(0x2306, 'Consigne de température ambiante normale', BYTE, unit='°C'),
         MsgNumeric(0x2307, 'Consigne de température ambiante réduite', BYTE, unit='°C'),
-        MsgNumeric(0x2544, 'Température de départ consigne', USHORT, unit='°C', divider=10.),
+        MsgNumeric(0x2544, 'Température de départ consigne', USHORT, unit='°C', divider=10., idx=26),
         MsgNumeric(0x2900, 'Température de départ effective', SHORT, divider=10., unit='°C', idx=7),
         MsgNumeric(0x0B1C, 'Vitesse du ventilateur consigne', USHORT, unit='rpm'),
         MsgNumeric(0x0B1E, 'Vitesse du ventilateur effective', USHORT, unit='rpm'),
@@ -85,7 +85,7 @@ DEFAULTS = {0x0F:('Marche régulée',
                   'Fermer la porte de cendrier'),
             0xFC:('Brûleur bloqué',
                   'Manque de combustible détecté (température de flamme pas atteinte). Panne de la sonde lambda en cours de fonctionnement',
-                  "Contrôler le système d'alimentation, la sonde de température de flamme, la sonde lambda, rajouter des granulés le cas échéant"),
+                  "Contrôler le système d'alimentation, la sonde de température de flamme, la sonde lambda, rajouter des granulés le cas échéant."),
            }
 
 

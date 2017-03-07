@@ -214,15 +214,14 @@ if __name__ == "__main__":
     if opto.read(err):
         if err.value:
             # Error
-            print "Défaut chaudière",
+            print "Défaut chaudière"
+            print err.value
             if geterrlog() != err0_date:
                 # --- new error
-                print " nouvelle erreur"
                 seterrlog(err0_date)  # update the errlog variable
                 domoticz(25, svalue='{:02X} - {}<br>{}<br>{}'.format(err0_id, *se.DEFAULTS.get(err0_id, ('', '', ''))))
             else:
                 # --- no new error
-                print " pas de nouvelle erreur"
                 domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
         else:
             # No Error
@@ -237,10 +236,8 @@ if __name__ == "__main__":
                          svalue=dico_mod.get(mod.value, (2, 'Mode n°{}'.format(mod.value)))[1])
                 print dico_mod[mod.value][1]
 
-#    new = se.MsgNumeric(0x2304, 'parallele')
-#    opto.read(new)
-#    print new
-#    opto.write(0x2304, 2)  # set the parallel
+#    new = se.MsgNumeric(0x27e2, 'correction affichage')
+#    opto.write(0x27e2, 50)
 #    opto.read(new)
 #    print new
 
@@ -249,3 +246,4 @@ if __name__ == "__main__":
 #            print elt
 
     opto.close()
+1111111111
