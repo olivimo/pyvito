@@ -115,15 +115,15 @@ class Optolink(object):
             logging.debug('Check-up passed successfully')
             return True
 
-    def write(self, address, data, data_size=1):
+    def write(self, address, data):
         """Write data (under development)
         /!/ experimental use very carefully"""
         # 1. Request
         self.ser.write('\x41')  # telegram start
         tele = b'\x00\x02'  # request for writing
         tele += address2str(address)
-        tele += chr(data_size)  # write one byte
-        tele += chr(data)  # data to write
+        tele += chr(len(data))  # write number of bytes
+        tele += data  # data to write
         tele = chr(len(tele)) + tele
         tele += comp_crc(tele)
         self.ser.write(tele)
@@ -148,7 +148,7 @@ class Optolink(object):
             logging.debug('Return address is the same? ' + str(check))
             assert check
             # check the size of the data
-            check = telegram[4] == chr(data_size)
+            check = telegram[4] == chr(len(data))
             logging.debug('Data size is ok? ' + str(check))
             assert check
             # check the crc
