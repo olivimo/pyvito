@@ -197,7 +197,7 @@ if __name__ == "__main__":
 
     # --- Print the time slot
     print '\n      ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))
-    for ts in se.TISL:
+    for ts in se.TISL_2k:
         if opto.read(ts):
             print ts
     # --- Print Error log
