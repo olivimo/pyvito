@@ -14,16 +14,27 @@ def address2str(address):
     """ Function that converts an hex address into str """
     return chr(address//256) + chr(address%256)
 
+
 def comp_crc(message):
     """ Function that computes the CRC """
     return chr(sum(ord(b) for b in message)%256)
 
-def conv_time(elt):
-    """ convert a string into a time """
+
+def char2time(elt):
+    """ convert a string into a time """    
     if elt == '\xff':
         return '--:--'
     else:
         return '{:02d}:{:02d}'.format(ord(elt)//8, (ord(elt)%8)*10)
+
+
+def time2char(elt):
+    """ convert a time into string"""
+    if '--' in elt:
+            return '\xff'
+    else:
+        str1, str2 = elt.split(':')
+        return chr(8*int(str1)+int(str2)/10)
 
 
 # %% Types of numerics
@@ -162,7 +173,7 @@ class MsgTimeslot(Msg):
     def update(self, str2eval):
         lis = []
         for (start, stop) in zip(str2eval[::2], str2eval[1::2]):
-            lis.append(conv_time(start) + ' ' + conv_time(stop))
+            lis.append(char2time(start) + ' ' + char2time(stop))
         self.value = ' | '.join(lis)
 
 
