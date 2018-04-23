@@ -15,7 +15,7 @@ slots = {
 'Mer': '--:-- --:-- | 18:20 21:30 | --:-- --:-- | --:-- --:--',
 'Jeu': '--:-- --:-- | 18:20 21:30 | --:-- --:-- | --:-- --:--',
 'Ven': '--:-- --:-- | 18:20 21:30 | --:-- --:-- | --:-- --:--',
-'Sam': '--:-- --:-- | 18:20 22:00 | --:-- --:-- | --:-- --:--',
+'Sam': '--:-- --:-- | 18:00 22:00 | --:-- --:-- | --:-- --:--',
 'Dim': '--:-- --:-- | 18:20 21:30 | --:-- --:-- | --:-- --:--'}
 
 from telegram import time2char
@@ -44,7 +44,7 @@ opto = vi.Optolink(se.SER)
 
 # --- Write the new time slot
 for (ts, jour) in zip(se.ALL_TISL[:7], se.DAYS):
-    opto.write(ts.address, rev_time(slots[jour]), 8)
+    opto.write(ts.address, rev_time(slots[jour]))
 
 
 
