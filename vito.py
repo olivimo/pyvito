@@ -196,10 +196,18 @@ if __name__ == "__main__":
                 domoticz(elt.idx, svalue=str(elt.value))
 
     # --- Print the time slot
+    print 'Time slot at 0x2000'
     print '\n      ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))
     for ts in se.TISL_2k:
         if opto.read(ts):
             print ts
+
+    print 'Time slot at 0x3000'
+    print '\n      ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))
+    for ts in se.TISL_3k:
+        if opto.read(ts):
+            print ts
+
     # --- Print Error log
     print '\nError log:'
     for el in se.ERRL:
