@@ -58,10 +58,10 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
 
 
 # --- Time slots
-TISL_2k = [MsgTimeslot(0x2000+i*8+j*128, '2k ' + DAYS[i]) for j in range(4) for i in range(7)]
-TISL_3k = [MsgTimeslot(0x3000+i*8+j*128, '3k ' + DAYS[i]) for j in range(4) for i in range(7)]
+TISL_2k = [MsgTimeslot(0x2000+i*8+j*128, DAYS[i]) for j in range(4) for i in range(7)]
+TISL_3k = [MsgTimeslot(0x3000+i*8+j*128, DAYS[i]) for j in range(4) for i in range(7)]
 
-#TISL_4k = [MsgTimeslot(0x4000+i*8+j*128, '4k ' + DAYS[i]) for j in range(4) for i in range(7)]
+#TISL_4k = [MsgTimeslot(0x4000+i*8+j*128, DAYS[i]) for j in range(4) for i in range(7)]
 
 ALL_TISL = TISL_2k + TISL_3k
 
