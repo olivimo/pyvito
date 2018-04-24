@@ -65,6 +65,11 @@ NB: the dot at the end of the command means copy file to the current folder.
 
 use the option "-r" to recursively copy entire directories instead of a simple file.
 
+## better option using sshfs
+1. `mkdir raspi`
+2. `sshfs pi@molnay.ddns.net:pyvito raspi`
+
+
 ## usefull links 
 * [http://openv.wikispaces.com/]
 * [https://github.com/steand/optolink]
