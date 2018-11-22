@@ -41,25 +41,28 @@ def rev_time(stri):
     return ''.join(res)
 
 
-# --- Open 300 Protocol
-opto = vi.Optolink(se.SER)
-    
+# %-- Main
+if __name__ == "__main__":
+
+    # --- Open 300 Protocol
+    opto = vi.Optolink(se.SER)
+        
 
 
-# --- Write the new time slot
-for (ts, jour) in zip(se.ALL_TISL[:7], se.DAYS):
-    opto.write(ts.address, rev_time(slots[jour]))
+    # --- Write the new time slot
+    for (ts, jour) in zip(se.ALL_TISL[:7], se.DAYS):
+        opto.write(ts.address, rev_time(slots[jour]))
 
 
 
 
-# --- Read and Print the time slot
-print '\n         ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))
-for ts in se.ALL_TISL:
-    if opto.read(ts):
-        print ts
+    # --- Read and Print the time slot
+    print '\n         ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))
+    for ts in se.ALL_TISL:
+        if opto.read(ts):
+            print ts
 
-# --- Close Protocol
-opto.close()
+    # --- Close Protocol
+    opto.close()
 
 
