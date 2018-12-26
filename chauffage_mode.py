@@ -16,8 +16,11 @@ import settings as se
 import vito as vi
 
 slots = {
-'off': '06:00 08:00 | 18:20 21:30 | --:-- --:-- | --:-- --:--',
-'on' : '07:00 09:00 | 18:20 21:30 | --:-- --:-- | --:-- --:--'}
+'off': '--:-- --:-- | --:-- --:-- | --:-- --:-- | --:-- --:--',
+'eco': '06:00 08:00 | 18:20 21:30 | --:-- --:-- | --:-- --:--',
+'cnf': '07:00 10:00 | 18:00 21:30 | --:-- --:-- | --:-- --:--',
+'cpp': '07:00 21:30 | --:-- --:-- | --:-- --:-- | --:-- --:--'
+}
 
 if len(sys.argv) == 3:
     fichier = open("/home/pi/test.txt", "w")
@@ -28,15 +31,15 @@ if len(sys.argv) == 3:
     status = sys.argv[2]
 
     # --- Open 300 Protocol
-#    opto = vi.Optolink(se.SER)        
+    opto = vi.Optolink(se.SER)        
 
     # --- Write the new time slot        
-#    opto.write(se.ALL_TISL[index].address, rev_time(slots[status]))
-    fichier.write(str(se.ALL_TISL[index].address))
-    fichier.write('\n')
-    fichier.write(day + ':' + slots[status])
-    fichier.close()
+    opto.write(se.ALL_TISL[index].address, rev_time(slots[status]))
+    #fichier.write(str(se.ALL_TISL[index].address))
+    #fichier.write('\n')
+    #fichier.write(day + ':' + slots[status])
+    #fichier.close()
 
     # --- Close Protocol
-#    opto.close()
+    opto.close()
     
