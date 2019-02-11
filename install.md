@@ -52,7 +52,13 @@ upadte every 20 min with log file
 `*/20 * * * * /home/pi/domoticz/scripts/vito.py >> /home/pi/vito.log 2>&1`
 
 ## synchronize time of the raspberrypi
-`sudo dpkg-reconfigure tzdata`
+1. Renseigner les serveurs
+`sudo nano -c /etc/systemd/timesyncd.conf`
+>Servers= ntp.unice.fr ntp.midway.ovh
+2. Activation
+`sudo timedatectl set-ntp true`
+3. Check
+`timedatectl`
 
 ## copying file between remote and host
  
