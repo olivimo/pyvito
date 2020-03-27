@@ -4,12 +4,21 @@
 * optolink module
 
 ## Installation
-1. raspbian installation
-2. ssh working with livebox:
-```
-sudo apt-get remove openssh-server --purge
-sudo apt-get install openssh-server
-```
+1. Installation de raspbian sur la carte SD
+2. Lancer le Raspberry, effectuer configurations d'usage
+3. Activer ssh :
+Préférences -> Configuration du Raspberry Pi -> Interfaces
+
+
+## En ssh
+### Installation et configuration de domoticz
+1. Installation de domoticz
+`sudo curl -L install.domoticz.com | bash`
+2. Ajouter un hardware "Dummy"
+3. Ajouter des capteurs virtuels
+4. Mettre à jour le fichier settings.py pour mettre à jour les idx des capteurs
+
+
 3. communication with usb
 `lsusb`
 `dmesg | grep "now attached"`
@@ -33,7 +42,7 @@ Check with: `ls -l /dev/serial/{by-path,by-id}/*`
 `sudo apt-get update`
 
 2. intall from web
-`sudo curl -L install.domoticz.com | bash`
+
 
 ## python scripts
 1. put the python scripts in /domoticz/scripts

@@ -17,25 +17,31 @@ URL = 'http://192.168.1.23:8080'  # Domoticz Server
 # %% Vitoligno 300-P Configuration
 
 # --- Messages
-MSGS = [MsgAddress(0x00F8, 'ID système'),
-        MsgDate(0x088E, 'Date et heure'),
-        MsgNumeric(0x5525, 'Température extérieure amortie', SHORT, unit='°C', divider=10.),
-        MsgNumeric(0x0800, 'Température extérieure effective', SHORT, divider=10., unit='°C', idx=22),
-        MsgNumeric(0x0B00, 'Température chaudière consigne', USHORT, unit='°C', divider=10.),
-        MsgNumeric(0x0B12, 'Température chaudière effective', USHORT, divider=10., unit='°C', idx=8),
-        MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=4),
-        MsgNumeric(0x2306, 'Consigne de température ambiante normale', BYTE, unit='°C'),
-        MsgNumeric(0x2307, 'Consigne de température ambiante réduite', BYTE, unit='°C'),
+MSGS_DOMOTICZ =  [
+        MsgNumeric(0x0800, 'Température extérieure effective', SHORT, divider=10., unit='°C', idx=1),
+        MsgNumeric(0x0B12, 'Température chaudière effective', USHORT, divider=10., unit='°C', idx=3),
+        MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=2),
         MsgNumeric(0x2544, 'Température de départ consigne', USHORT, unit='°C', divider=10., idx=26),
         MsgNumeric(0x2900, 'Température de départ effective', SHORT, divider=10., unit='°C', idx=7),
-        MsgNumeric(0x0B1C, 'Vitesse du ventilateur consigne', USHORT, unit='rpm'),
-        MsgNumeric(0x0B1E, 'Vitesse du ventilateur effective', USHORT, unit='rpm'),
         MsgNumeric(0x0B14, 'Température de flamme', USHORT, divider=10., unit='°C', idx=19),
         MsgNumeric(0x0B20, 'Puissance de la chaudière', UBYTE, unit='%', idx=3),
         MsgNumeric(0x0B18, 'Teneur en O2', USHORT, divider=10., unit='%', idx=6),
         MsgNumeric(0x08A7, 'Fonctionnement du brûleur', UINT, divider=3600, unit='h', idx=11),
         MsgNumeric(0x088A, "Nombre de démarrages", USHORT, idx=9),
         MsgNumeric(0x08B0, 'Consommation de pellets', UINT, unit='kg', idx=10),
+        MsgNumeric(0x0b11, "Mode de fonctionnement [0:Arrêt, 1:Montée température, 2:Action régulation, 4:Phase d'extinction]", idx=23),
+        MsgNumeric(0x0B21, 'Défaut actuel', idx=24),  # Idem as 7561 and 756B
+       ]
+
+MSGS_OTHER = [
+        MsgAddress(0x00F8, 'ID système'),
+        MsgDate(0x088E, 'Date et heure'),
+        MsgNumeric(0x5525, 'Température extérieure amortie', SHORT, unit='°C', divider=10.),
+        MsgNumeric(0x0B00, 'Température chaudière consigne', USHORT, unit='°C', divider=10.),
+        MsgNumeric(0x2306, 'Consigne de température ambiante normale', BYTE, unit='°C'),
+        MsgNumeric(0x2307, 'Consigne de température ambiante réduite', BYTE, unit='°C'),
+        MsgNumeric(0x0B1C, 'Vitesse du ventilateur consigne', USHORT, unit='rpm'),
+        MsgNumeric(0x0B1E, 'Vitesse du ventilateur effective', USHORT, unit='rpm'),
         MsgBoolean(0x2906, 'Pompe chauffage'),
         MsgBoolean(0x2302, 'Régime économique ?'),
         MsgBoolean(0x2303, 'Régime réception ?'),
@@ -51,8 +57,6 @@ MSGS = [MsgAddress(0x00F8, 'ID système'),
         MsgNumeric(0xa38f, 'Performance actuelle', UBYTE, unit='%', divider=2.),
         MsgNumeric(0x2323, 'Mode de fonctionnement [0: Veille, 1:Eau Chaude, 2:Chauffage et Eau Chaude, 3:Fonctionnement permanent réduit, 4: Fonctionnement permanent normal]'),
         MsgNumeric(0x084B, 'Défaut ?'),
-        MsgNumeric(0x0b11, "Mode de fonctionnement [0:Arrêt, 1:Montée température, 2:Action régulation, 4:Phase d'extinction]", idx=23),
-        MsgNumeric(0x0B21, 'Défaut actuel', idx=24),  # Idem as 7561 and 756B
         MsgNumeric(0x0B23, 'Entrées numériques 1'),
        ]
 
@@ -165,7 +169,7 @@ CODAGE2_CHAUD = [Codage(0x5721, 0, (0, 100)),  # fréquence entretien
 if __name__ == "__main__":
 
     # --- Create a list that contains all messages and group by address
-    ALL_MESSAGES = MSGS + ALL_TISL + ERRL + CODAGE2_CC + CODAGE2_CHAUD + CODAGE2_GEN
+    ALL_MESSAGES = MSGS_DOMOTICZ + MSGS_OTHERS + ALL_TISL + ERRL + CODAGE2_CC + CODAGE2_CHAUD + CODAGE2_GEN
     ALL_MESSAGES.sort(key=lambda x: x.address)
     TAB = ['{:04X} | {} | {}'.format(elt.address, elt.size, elt.description) for elt in ALL_MESSAGES]
     TAB_ADD = [elt.address for elt in ALL_MESSAGES]
