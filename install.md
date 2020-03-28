@@ -4,63 +4,41 @@
 * optolink module
 
 ## Installation
+
+### Installation de Raspbian
 1. Installation de raspbian sur la carte SD
 2. Lancer le Raspberry, effectuer configurations d'usage
 3. Activer ssh :
 Préférences -> Configuration du Raspberry Pi -> Interfaces
 
 
-## En ssh
-### Installation et configuration de domoticz
-1. Installation de domoticz
+### Ajouter clé pour ssh
+1. sur remote, générer la clé
+`ssh-keygen`
+2. copier la clé publique sur le raspberry
+`ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.1.23`
+
+
+### Installation et configuration de domoticz via ssh
+1. utiliser ssh
+`ssh pi@192.168.1.23`
+2. Installation de domoticz
 `sudo curl -L install.domoticz.com | bash`
-2. Ajouter un hardware "Dummy"
-3. Ajouter des capteurs virtuels
-4. Mettre à jour le fichier settings.py pour mettre à jour les idx des capteurs
 
+### Sur l'interface de domoticz 192.168.1.23:8080
+1. Ajouter un hardware "Dummy"
+2. Ajouter des capteurs virtuels
+3. Mettre à jour le fichier settings.py pour mettre à jour les idx des capteurs
 
-3. communication with usb
-`lsusb`
-`dmesg | grep "now attached"`
-Localisez le ID_SERIAL_SHORT : `/sbin/udevadm info --query=all --name=/dev/ttyUSB0` :
-	ID_SERIAL_SHORT=AH03F5ZR
-	ID_SERIAL=FTDI_FT232R_USB_UART_AH03F5ZR
-	ID_VENDOR_FROM_DATABASE=Future Technology Devices International, Ltd
-
-Editez le fichier
-`sudo nano /etc/udev/rules.d/70-lesekopf.rules`
-
-SUBSYSTEM=="tty", ATTRS{product}=="FT232R USB UART", ATTRS{serial}=="AH03F5ZR", NAME="vitoir0"
-
-Redémarrez le service udev
-`sudo service udev restart`
-
-Check with: `ls -l /dev/serial/{by-path,by-id}/*`
-
-## domoticz installation
-1. update sources
-`sudo apt-get update`
-
-2. intall from web
-
-
-## python scripts
-1. put the python scripts in /domoticz/scripts
-2. change the right to executable
-`chmod +x opto.py`
-
-## cron
+### Régler cron
 1. open crontab
 `crontab -e`
+2. edit update every 20 min.
+`*/20 * * * * /home/pi/pyvito/vito-domoticz.py`
 
-2. edit
-update every 20 min.
-`*/20 * * * * /home/pi/domoticz/scripts/vito.py`
 
-upadte every 20 min with log file
-`*/20 * * * * /home/pi/domoticz/scripts/vito.py >> /home/pi/vito.log 2>&1`
 
-## synchronize time of the raspberrypi
+### synchronize time of the raspberrypi
 1. Renseigner les serveurs
 `sudo nano -c /etc/systemd/timesyncd.conf`
 >Servers= ntp.unice.fr ntp.midway.ovh
@@ -69,20 +47,11 @@ upadte every 20 min with log file
 3. Check
 `timedatectl`
 
-## copying file between remote and host
- 
-* Copying file to host (i.e. from local to remote computer):
-`scp vito.py pi@192.168.1.23:~/domoticz/scripts/vito.py`
 
-* Copying file from host (i.e. from remote computer to local):
-`scp pi@192.168.1.23:~/domoticz/scripts/vito .`
-NB: the dot at the end of the command means copy file to the current folder.
-
-use the option "-r" to recursively copy entire directories instead of a simple file.
-
-## better option using sshfs
-1. `mkdir raspi`
-2. `sshfs pi@molnay.ddns.net:pyvito raspi`
+## Tricks
+* copying file between remote and host
+`scp -r pyvito  pi@192.168.1.23:~/`
+* supprimer des points sur une courbe domoticz : shift+left click
 
 
 ## usefull links 
