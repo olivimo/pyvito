@@ -3,6 +3,7 @@
 """
 Created on Fri Mar 27 13:34:22 2020
 
+
 @author: olivierm
 
 separate file for domoticz
@@ -19,13 +20,13 @@ import vito as vi
 
 if __name__ == "__main__":
 # --- Open 300 Protocol
-    opto = Optolink(se.SER)
+    opto = vi.Optolink(se.SER)
     # --- Print and update Messages on Domoticz
     for elt in se.MSGS_DOMOTICZ:
         if opto.read(elt):
             print elt
             if elt.idx != None:
-                domoticz(elt.idx, svalue=str(elt.value))
+                vi.domoticz(elt.idx, svalue=str(elt.value))
 
     # --- Print Error log
     print '\nError log:'
@@ -46,11 +47,11 @@ if __name__ == "__main__":
                 # --- new error
                 print " nouvelle erreur"
                 seterrlog(err0_date)  # update the errlog variable
-                domoticz(25, svalue='{:02X} - {}<br>{}<br>{}'.format(err0_id, *se.DEFAULTS.get(err0_id, ('', '', ''))))
+                vi.domoticz(25, svalue='{:02X} - {}<br>{}<br>{}'.format(err0_id, *se.DEFAULTS.get(err0_id, ('', '', ''))))
             else:
                 # --- no new error
                 print " pas de nouvelle erreur"
-                domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
+                vi.domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
         else:
             # No Error
             print "Pas de défaut"
@@ -60,7 +61,7 @@ if __name__ == "__main__":
                             1:(2, 'Montée température'),
                             2:(1, 'Action régulation'),
                             4:(3, "Phase d'extinction")}
-                domoticz(17, nvalue=dico_mod.get(mod.value, (2,))[0],
+                vi.domoticz(17, nvalue=dico_mod.get(mod.value, (2,))[0],
                          svalue=dico_mod.get(mod.value, (2, 'Mode n°{}'.format(mod.value)))[1])
                 print dico_mod[mod.value][1]
 
