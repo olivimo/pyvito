@@ -51,7 +51,7 @@ if __name__ == "__main__":
             else:
                 # --- no new error
                 print " pas de nouvelle erreur"
-                vi.domoticz(17, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
+                vi.domoticz(14, nvalue=4, svalue="Erreur {:02X} ({})".format(err0_id, err0_date))
         else:
             # No Error
             print "Pas de défaut"
@@ -61,7 +61,7 @@ if __name__ == "__main__":
                             1:(2, 'Montée température'),
                             2:(1, 'Action régulation'),
                             4:(3, "Phase d'extinction")}
-                vi.domoticz(17, nvalue=dico_mod.get(mod.value, (2,))[0],
+                vi.domoticz(14, nvalue=dico_mod.get(mod.value, (2,))[0],
                          svalue=dico_mod.get(mod.value, (2, 'Mode n°{}'.format(mod.value)))[1])
                 print dico_mod[mod.value][1]
 
