@@ -19,18 +19,18 @@ URL = 'http://192.168.1.23:8080'  # Domoticz Server
 # --- Messages
 MSGS_DOMOTICZ =  [
         MsgNumeric(0x0800, 'Température extérieure effective', SHORT, divider=10., unit='°C', idx=1),
-        MsgNumeric(0x0B12, 'Température chaudière effective', USHORT, divider=10., unit='°C', idx=3),
-        MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=2),
-        MsgNumeric(0x2544, 'Température de départ consigne', USHORT, unit='°C', divider=10., idx=26),
-        MsgNumeric(0x2900, 'Température de départ effective', SHORT, divider=10., unit='°C', idx=7),
-        MsgNumeric(0x0B14, 'Température de flamme', USHORT, divider=10., unit='°C', idx=19),
-        MsgNumeric(0x0B20, 'Puissance de la chaudière', UBYTE, unit='%', idx=3),
-        MsgNumeric(0x0B18, 'Teneur en O2', USHORT, divider=10., unit='%', idx=6),
-        MsgNumeric(0x08A7, 'Fonctionnement du brûleur', UINT, divider=3600, unit='h', idx=11),
+        MsgNumeric(0x0B12, 'Température chaudière effective', USHORT, divider=10., unit='°C', idx=2),
+        MsgNumeric(0x0896, 'Température ambiante', SHORT, divider=10., unit='°C', idx=3),
+        MsgNumeric(0x2544, 'Température de départ consigne', USHORT, unit='°C', divider=10., idx=4),
+        MsgNumeric(0x2900, 'Température de départ effective', SHORT, divider=10., unit='°C', idx=5),
+        MsgNumeric(0x0B14, 'Température de flamme', USHORT, divider=10., unit='°C', idx=6),
+        MsgNumeric(0x0B20, 'Puissance de la chaudière', UBYTE, unit='%', idx=7),
+        MsgNumeric(0x0B18, 'Teneur en O2', USHORT, divider=10., unit='%', idx=8),
+        MsgNumeric(0x08A7, 'Fonctionnement du brûleur', UINT, divider=3600, unit='h', idx=13),
         MsgNumeric(0x088A, "Nombre de démarrages", USHORT, idx=9),
         MsgNumeric(0x08B0, 'Consommation de pellets', UINT, unit='kg', idx=10),
-        MsgNumeric(0x0b11, "Mode de fonctionnement [0:Arrêt, 1:Montée température, 2:Action régulation, 4:Phase d'extinction]", idx=23),
-        MsgNumeric(0x0B21, 'Défaut actuel', idx=24),  # Idem as 7561 and 756B
+        MsgNumeric(0x0b11, "Mode de fonctionnement [0:Arrêt, 1:Montée température, 2:Action régulation, 4:Phase d'extinction]", idx=11),
+        MsgNumeric(0x0B21, 'Défaut actuel', idx=12),  # Idem as 7561 and 756B
        ]
 
 MSGS_OTHER = [
