@@ -33,7 +33,7 @@ MSGS_DOMOTICZ =  [
         MsgNumeric(0x0B21, 'Défaut actuel', idx=12),  # Idem as 7561 and 756B
        ]
 
-MSGS_OTHER = [
+MSGS_OTHERS = [
         MsgAddress(0x00F8, 'ID système'),
         MsgDate(0x088E, 'Date et heure'),
         MsgNumeric(0x5525, 'Température extérieure amortie', SHORT, unit='°C', divider=10.),

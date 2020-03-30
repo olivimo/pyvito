@@ -7,6 +7,12 @@ Created on Mon Apr 23 13:34:22 2018
 
 Assign Working day or not for scheduling
 
+
+Preamble
+Create a switch in domoticz for every days with the 4 states [off, eco, cnf, cpp]
+Define actions for each state (example monday eco) : 
+script:///home/pi/pyvito/chauffage_mode.py Lun eco
+
 """
 
 import sys
@@ -23,23 +29,23 @@ slots = {
 }
 
 if len(sys.argv) == 3:
-    fichier = open("/home/pi/test.txt", "w")
-
+    
     # No error when calling this script
     day = sys.argv[1]
     index = se.DAYS.index(day)
     status = sys.argv[2]
 
     # --- Open 300 Protocol
+    # fichier = open("/home/pi/pyvito/test.txt", "w")  # for testing purpose
     opto = vi.Optolink(se.SER)        
 
     # --- Write the new time slot        
+    #fichier.write(str(se.ALL_TISL[index].address))   # for testing purpose
+    #fichier.write('\n')  # for testing purpose
+    #fichier.write(day + ':' + slots[status])  # for testing purpose
     opto.write(se.ALL_TISL[index].address, rev_time(slots[status]))
-    #fichier.write(str(se.ALL_TISL[index].address))
-    #fichier.write('\n')
-    #fichier.write(day + ':' + slots[status])
-    #fichier.close()
 
     # --- Close Protocol
+    #fichier.close()  # for testing purpose
     opto.close()
     

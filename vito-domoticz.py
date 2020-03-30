@@ -28,6 +28,15 @@ if __name__ == "__main__":
             if elt.idx != None:
                 vi.domoticz(elt.idx, svalue=str(elt.value))
 
+    # --- Print the time slot for programmation mode
+    print 'Programmateur'
+    progr = ['      ' + ' | '.join('plage {}'.format(i+1).center(11) for i in range(4))]
+    for ts in se.TISL_2k[:7]:
+        if opto.read(ts):
+            progr.append(str(ts))
+    print "\n".join(progr)
+    vi.domoticz(22, svalue="\n".join(progr))
+
     # --- Print Error log
     print '\nError log:'
     for el in se.ERRL:

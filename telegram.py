@@ -70,7 +70,7 @@ class Msg(object):
         """  Method that updates the value of the msg """
         self.value = str2eval
 
-    def __repr__(self):
+    def __str__(self):
         if len(self.description) == 0:
             return str(self.value)
         else:
@@ -99,7 +99,7 @@ class MsgNumeric(Msg):
         """ Method that updates the value of the msg """
         self.value = unpack(self.numtyp[0], str2eval)[0] / self.divider
 
-    def __repr__(self):
+    def __str__(self):
         if self.value is None:
             return self.description + ' : ---' + self.unit
         else:
@@ -140,7 +140,7 @@ class MsgErrlog(Msg):
         stnum = [ord(c) for c in str2eval]
         self.value = (stnum[0], '{4:02x}/{3:02x}/{1:02x}{2:02x},{6:02x}:{7:02x}:{8:02x}'.format(*stnum))
 
-    def __repr__(self):
+    def __str__(self):
         return self.description + ' : {:02X} - {}'.format(*self.value)
 
 
@@ -153,7 +153,7 @@ class MsgBoolean(Msg):
         val = unpack('B', str2eval)[0]
         self.value = (val%2) == 1
 
-    def __repr__(self):
+    def __str__(self):
         return self.description + ' ' + str(self.value)
 
 class MsgAddress(Msg):
